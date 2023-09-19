@@ -1,2 +1,2 @@
 # Azarquiel
-Repositorio del Grado
+Repositorio del Gradito
