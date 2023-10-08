@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script type="text/javascript">
+        
+        function Coche(marca, modelo, precio, anoMatriculacion, url) {
+                this.marca = marca;
+                this.modelo = modelo;
+                this.precio = precio;
+                this.anoMatriculacion = anoMatriculacion;
+                this.url = url;
+            }
+        
+            var coche1 = new Coche("Audi", "A4", 1000000, 2020, "img/audi.png");
+            var coche2 = new Coche("BMW", "M3", 2000000, 2020, "img/bmw.png");
+            var coche3 = new Coche("Volkswagen", "Jetta", 3000000, 2020, "img/volkswagen1.png");
+            var coche4 = new Coche("Volkswagen", "Golf", 4000000, 2020, "img/volkswagen2.png");
+            var coche5 = new Coche("Mercedes", "AMG", 5000000, 2020, "img/mercedes.png");
+
+            let ArrayCoches = new Array(coche1, coche2, coche3, coche4, coche5);
+            console.log(ArrayCoches);
+
+
+    </script>
+
+
+</body>
+
+</html>
