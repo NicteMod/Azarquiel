@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personas</title>
+    <script src="clase.js"></script>
+</head>
+
+<body>
+
+
+
+    
+    <script>
+
+        let p1 = new Persona("Juan", "Perez", "Madrid", 30, "Ingeniería", true)
+        let p2 = new Persona("Maria", "Lopez", "Barcelona", 25, "Medicina", false)
+        let p3 = new Persona("Carlos", "Gomez", "Valencia", 35, "Derecho", true)
+        let p4 = new Persona("Pedro", "Gonzalez", "Sevilla", 20, "Ingeniería", true)
+        let p5 = new Persona("Jose", "Gonzalez", "Sevilla", 20, "Ingeniería", true)
+        let p6 = new Persona("Juan", "Gonzalez", "Sevilla", 20, "Ingeniería", true)
+
+        let personasMap = new Map();
+        personasMap.set('1123456789A', p1);
+        personasMap.set('1123456789B', p2);
+        personasMap.set('1123456789C', p3);
+        personasMap.set('1123456789D', p4);
+        personasMap.set('1123456789E', p5);
+        personasMap.set('1123456789F', p6);
+
+
+        //personasMap.sort((a, b) => a[1].edad - b[1].edad);
+
+        document.write("<table border = 1>");
+            personasMap.forEach((persona, dni) => {
+             document.write("<tr>");
+                document.write("<td>" + dni + "</td>");
+                document.write("<td>" + persona.nombre + "</td>");
+                document.write("<td>" + persona.apellidos + "</td>");
+                document.write("<td>" + persona.edad + "</td>");
+                document.write("<td>" + persona.poblacion + "</td>");
+                document.write("<td>" + persona.estudios + "</td>");
+                document.write("<td>" + persona.carnetDeConducir + "</td>");
+                document.write("</tr>");
+
+            })
+        document.write("<table>");
+
+    </script>
+</body>
+
+</html>

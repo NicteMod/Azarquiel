@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personas</title>
+    <script src="clase.js"></script>
+</head>
+
+<body>
+
+    <script>
+
+        let p1 = new Persona("Juan", "Perez", "Madrid", 30, "Ingeniería", true)
+        let p2 = new Persona("Maria", "Lopez", "Barcelona", 25, "Medicina", false)
+        let p3 = new Persona("Carlos", "Gomez", "Valencia", 35, "Derecho", true)
+        let p4 = new Persona("Pedro", "Gonzalez", "Sevilla", 20, "Ingeniería", true)
+        let p5 = new Persona("Jose", "Gonzalez", "Sevilla", 20, "Ingeniería", true)
+        let p6 = new Persona("Juan", "Gonzalez", "Sevilla", 20, "Ingeniería", true)
+
+        let personas = new Array(p1, p2, p3, p4, p5, p6)
+        
+        personas.sort((a, b) => a.nombre.localeCompare(b.nombre));
+        
+        
+
+        personas.forEach(persona => {
+            
+            document.write(`Nombre: ${persona.nombre}, Apellidos: ${persona.apellidos}, Población: ${persona.poblacion}, Edad: ${persona.edad}, Estudios: ${persona.estudios}, Carnet de conducir: ${persona.carnetDeConducir}` + "<br>");    
+        });
+    </script>
+</body>
+
+</html>
