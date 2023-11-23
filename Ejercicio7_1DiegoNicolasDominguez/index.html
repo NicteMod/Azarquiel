@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Hugo 0.101.0">
+  <title>DiegoNicolasDominguezNavarro</title>
+
+  <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/sign-in/">
+
+
+
+  <!-- Bootstrap core CSS -->
+  <link href="bootstrap.min.css" rel="stylesheet">
+
+
+
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+
+
+  <!-- Custom styles for this template -->
+  <link href="signin.css" rel="stylesheet">
+</head>
+
+<body class="text-center">
+
+  <form class="form-signin">
+
+    <img class="mb-4" src="img/perro_salchicha.jpg" alt="" width="200" height="200">
+    <h1 class="h3 mb-3 font-weight-normal">Introduzca sus datos</h1>
+    <label for="inputEmail" class="sr-only">Email address</label>
+    <input type="email" id="inputEmail" class="form-control" placeholder="Dirección de Email" required autofocus>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña" required>
+    <div class="checkbox mb-3">
+      
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" id="botonEnviar">Sign in</button>
+    <p class="mt-5 mb-3 text-muted">&copy; 2023-2023 Diego Nicolás</p>
+
+  </form>
+
+  <script>
+
+    window.addEventListener("load", e => { 
+      //Primero añadimos un evento que nos permita escuchar cuando se cargará la página entera y por consecuencia asegurarnos el javascript 
+      document.getElementById("botonEnviar").addEventListener("click", e => {
+        //Creamos un evento que escuche cuando le damos a enviar el formulario y así poder recoger la información de este
+        e.preventDefault();
+        //hacemos un preventDefault para que no nos haga un redirección el botón y no se recargue la página
+        let email = document.getElementById("inputEmail").value;
+        let password = document.getElementById("inputPassword").value;
+        //guardamos el email y contraseña de los 2 campos del formulario
+        console.log(email + password);
+
+        let xhr = new XMLHttpRequest();
+        let url = `https://jsonplaceholder.typicode.com/users?email=${email}`
+        xhr.open("GET", url, true);
+        //Creamos un XMLHttpRequest que nos va a permitir recoger los datos de la API.
+
+        xhr.onload = () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            
+            let responseData = JSON.parse(xhr.responseText);
+            console.log('Datos recibidos:', responseData);
+            //cuando está listo recibimos un array de elementos
+            //y abajo comprobamos que la información recibida sea igual que la informción que hemos conseguido de los campos del formulario
+            if(responseData[0].email === email && responseData[0].address.zipcode === password) {
+
+              console.log("Conseguido!");
+              window.open("blog.html","_blank");
+              //si todo está correcto abrimos la página blog.html
+            }else{
+             //en caso de no ser correcto le decimos que es incorrecto y que vuelva a intentarlo
+              alert("Datos Incorrectos vuelva a intentarlo");
+              console.log(email);
+              console.log(password);
+            }
+           
+          } else {
+            console.error('Error en la solicitud. Estado:', xhr.status, 'Mensaje:', xhr.statusText);
+            //error en caso de que no se haya podido generar bien la solicitud
+          }
+        };
+
+        
+        xhr.send();
+
+
+      });
+
+    });
+
+  </script>
+
+</body>
+
+</html>

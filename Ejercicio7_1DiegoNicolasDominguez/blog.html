@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/sign-in/">
+    <link href="bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container justify-content-between">
+        <div class="col text-center">
+            <a href="#" class="btn btn-primary btn-lg active" role="button" aria-pressed="true"
+                id="botonUsuario">USUARIOS</a>
+        </div>
+        <div class="col text-center">
+            <a href="#" class="btn btn-primary btn-lg active" role="button" aria-pressed="true" id="botonPost">POSTS</a>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead class="thead-dark" id="userTableHead" style="display: none;">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+                <th scope="col">Posts</th>
+            </tr>
+        </thead>
+        <tbody id="userTableBody">
+
+        </tbody>
+    </table>
+
+    <table class="table">
+        <thead class="thead-dark" id="usuarioIndividualHead" style="display: none;">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Email</th>
+                <th scope="col">Calle</th>
+                <th scope="col">Suite</th>
+                <th scope="col">Ciudad</th>
+                <th scope="col">Teléfono</th>
+                <th scope="col">Website</th>
+            </tr>
+        </thead>
+        <tbody id="usuarioIndividualBody">
+
+        </tbody>
+    </table>
+
+
+    <table class="table">
+        <thead class="thead-dark" id="postTableHead" style="display: none;">
+            <tr>
+                <th scope="col">ID Post</th>
+                <th scope="col">Título</th>
+                <th scope="col">Contenido</th>
+            </tr>
+        </thead>
+        <tbody id="postTableBody">
+
+        </tbody>
+    </table>
+
+    <script type="text/javascript">
+        function pintaUsuarios(listaUsers) {
+            const tableHead = document.getElementById('userTableHead');
+            const tableBody = document.getElementById('userTableBody');
+            //Para pintar los usuarios hacemos 2 cosas 1º Escondemos el table head con un display: none para que no se vea la tabla, y posterior
+            //le añadimos datos a table body.
+            tableHead.style.display = 'table-header-group';
+            //Hacemos visible de nuevo esa parte de la tabla
+            tableBody.innerHTML = '';
+            //limpiamos el código que tiene dentro
+            listaUsers.forEach(user => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                <td>${user.id}</td>
+                <td><button class="btn btn-secondary btn-lg" onclick="obtenerUsuario(${user.id})">${user.name}</button></td>
+                <td>${user.email}</td>
+                <td><button class="btn btn-primary btn-lg" onclick="obtenerPosts(${user.id},1)">Mostrar Posts</button></td>
+            `;
+                //recalcar que para invocar los metodos que usamos para ver mas detalladamente un usuario o sus posts usamos onClick y le pasamos el dato correspondiente
+                tableBody.appendChild(row);
+                //y añadimos una fila nueva por cada dato dentro de la lista de usuarios que le hayamos pasado
+            });
+        }
+
+        function pintaPosts(listaPosts, numero) {
+            //aunque se que no se pedia en el ejercicio no he conseguido otra manera que pasandole el número de paginación al metodo para que solo me imprima resultados
+            //de 5 en 5 en la tabla por ello agrego un nuevo parámetro que se encargará de este
+            const tableHead = document.getElementById('postTableHead');
+            const tableBody = document.getElementById('postTableBody');
+            //Para pintar los usuarios hacemos 2 cosas 1º Escondemos el table head con un display: none para que no se vea la tabla, y posterior
+            //le añadimos datos a table body.
+            const tableHeadPost = document.getElementById('usuarioIndividualHead');
+            const tableBodyPost = document.getElementById('usuarioIndividualBody');
+            tableHeadPost.style.display = 'none';
+            tableBodyPost.innerHTML = '';
+            //Escondemos y borramos la tabla usuario para que no se vea la tabla
+
+            tableHead.style.display = 'table-header-group'; // De internet
+            tableBody.innerHTML = '';
+
+            //con este for solo imprimimos los resultados de 5 en 5
+            for (var i = 5* numero - 5; i < 5 * numero; i++) {
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                <td>${listaPosts[i].id}</td>
+                <td>${listaPosts[i].title}</td>
+                <td>${listaPosts[i].body}</td>
+            `;
+                tableBody.appendChild(row);
+                if (i == 5 * numero - 1) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+               
+                <td>#</td>
+                <td><button class="btn btn-primary btn-lg" onclick="obtenerPosts(${listaPosts[0].userId},${numero+1})">Continuar</button></td>
+                <td>Resultados del ${5 * (numero - 1)} al ${5 * numero}</td>
+            `;
+            //igual que antes utilizamos onClick para invocar el siguiente metodo y para la paginacion usamos numero + 1
+                    tableBody.appendChild(row);
+                }
+
+            }
+
+
+        }
+        //bastante igual que el PintaPosts la única diferencia por la que tenemos este metodo es que el boton en vez de pedir los posts de
+        //un usuario le paso solo el numero de paginacion al metodo obtenerTodosPosts. Intenté hacer una especie de sobrecarga de metodos haciendo
+        // que acepte menos parametros para que solo fuera necesario usar un metodo pero al no conseguirlo he tenido que dividir pintar los Post
+        // por usuario y todos.
+        function pintaTodosPosts(listaPosts, numero) {
+            const tableHead = document.getElementById('postTableHead');
+            const tableBody = document.getElementById('postTableBody');
+            const tableHeadPost = document.getElementById('usuarioIndividualHead');
+            const tableBodyPost = document.getElementById('usuarioIndividualBody');
+            tableHeadPost.style.display = 'none';
+            tableBodyPost.innerHTML = '';
+
+            tableHead.style.display = 'table-header-group'; // De internet
+            tableBody.innerHTML = '';
+
+            for (var i = 5* numero - 5; i < 5 * numero; i++) {
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                <td>${listaPosts[i].id}</td>
+                <td>${listaPosts[i].title}</td>
+                <td>${listaPosts[i].body}</td>
+            `;
+                tableBody.appendChild(row);
+                if (i == 5 * numero - 1) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+               
+                <td>#</td>
+                <td><button class="btn btn-primary btn-lg" onclick="obtenerTodosPosts(${numero+1})">Continuar</button></td>
+                <td>Resultados del ${5 * (numero - 1)} al ${5 * numero}</td>
+            `;
+                    tableBody.appendChild(row);
+                }
+
+            }
+
+
+        }
+
+        //Utilizamos el Fetch para pedir por la URL todos los posts de un usuario y llamamos luego al metodo PintaPosts
+        function obtenerPosts(userId, numero) {
+            
+           
+                fetch(`https://jsonplaceholder.typicode.com/posts?userId=${userId}`)
+                    .then(response => response.json())
+                    .then(posts => {
+                        pintaPosts(posts, numero);
+                    })
+                    .catch(error => console.error(`Error`, error));
+        }
+        //Utilizamos el Fetch para pedir todos los Posts existentes de la API y luego se los pasamos a pintaTodosPosts
+        function obtenerTodosPosts(numero) {
+            
+           
+                fetch(`https://jsonplaceholder.typicode.com/posts`)
+                    .then(response => response.json())
+                    .then(posts => {
+                        pintaTodosPosts(posts, numero);
+                    })
+                    .catch(error => console.error(`Error`, error));
+        }
+
+
+        function pintarUsuario(user) {
+            //aunque se que no se pedia en el ejercicio no he conseguido otra manera que pasandole el número de paginación al metodo para que solo me imprima resultados
+            //de 5 en 5 en la tabla por ello agrego un nuevo parámetro que se encargará de este
+            const tableHeadPost = document.getElementById('postTableHead');
+            const tableBodyPost = document.getElementById('postTableBody');
+            const tableHead = document.getElementById('usuarioIndividualHead');
+            const tableBody = document.getElementById('usuarioIndividualBody');
+            //Para pintar los usuarios hacemos 2 cosas 1º Escondemos el table head con un display: none para que no se vea la tabla, y posterior
+            //le añadimos datos a table body.
+            tableHead.style.display = 'table-header-group'; // De internet
+            tableBody.innerHTML = '';
+            tableHeadPost.style.display = 'none'; 
+            tableBodyPost.innerHTML = '';
+            //escondemos y borramos la otra tabla para que no se muestre por pantalla
+
+            user.forEach(usu => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                <td>${usu.id}</td>
+                <td>${usu.username}</td>
+                <td>${usu.email}</td>
+                <td>${usu.address.street}</td>
+                <td>${usu.address.suite}</td>
+                <td>${usu.address.city}</td>
+                <td>${usu.phone}</td>
+                <td>${usu.website}</td>
+            `;
+                tableBody.appendChild(row);
+            });
+            //pintamos los datos del usuario
+        }
+        //funcion con Fetch que nos permite obtener toda la informacion de un usuario en concreto y luego se la pasamos al metodo PintarUsuario
+        function obtenerUsuario(Id) {
+            fetch(`https://jsonplaceholder.typicode.com/users?id=${Id}`)
+                .then(response => response.json())
+                .then(usuario => {
+                    pintarUsuario(usuario);
+                })
+                .catch(error => console.error(`Error`, error));
+        }
+
+
+        function accedeUsers() {
+            fetch('https://jsonplaceholder.typicode.com/users')
+                //pedimos todos los usuarios con un Fetch
+                .then(response => response.json())
+                .then(users => {
+                    pintaUsuarios(users);
+                    //Una vez tenemos la lista de usuarios se lo pasamos al metodo PintaUsuarios y le pasamos la lista
+                })
+                .catch(error => console.error('Error al obtener usuarios:', error));
+        }
+
+        window.addEventListener("load", e => {
+            //Como hemos hecho antes primero esperamos a que cargue la página entera para asegurarnos que el JS se cargue completamente también
+            document.getElementById("botonUsuario").addEventListener("click", e => {
+                //añadimos un evento al Boton Usuario que usará el metodo accedeUsers para poder obtener todos los datos de los usuarios y luego pintarlos
+                accedeUsers();
+            });
+            document.getElementById("botonPost").addEventListener("click",e => {
+                obtenerTodosPosts(1);
+            });
+        });
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>
